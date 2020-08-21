@@ -1,0 +1,22 @@
+#' App Store Ratings
+#'
+#' A dataset containing google play store ratings
+#'
+#' @format A data frame of X rows and 12 columns
+#' \describe{
+#'  \item{reviewId}{Numeric values giving day of the week, 1 = Monday, 7 = Sunday}
+#'  \item{userName}{Numeric values of temperature}
+#'  \item{userImage}{Character Values of Weather with Levels Snow, Sun, Rain, Snow}
+#'  \item{content}{Character Values of Weather with Levels Snow, Sun, Rain, Snow}
+#'  \item{userImage}{Character Values of Weather with Levels Snow, Sun, Rain, Snow}
+#'  \item{score}{Character Values of Weather with Levels Snow, Sun, Rain, Snow}
+#'  \item{thumbsUpCount}{Character Values of Weather with Levels Snow, Sun, Rain, Snow}
+#'  \item{reviewCreatedVersion}{Character Values of Weather with Levels Snow, Sun, Rain, Snow}
+#'  \item{at}{Character Values of Weather with Levels Snow, Sun, Rain, Snow}
+#'  \item{replyContent}{Character Values of Weather with Levels Snow, Sun, Rain, Snow}
+#'  \item{repliedAt}{Character Values of Weather with Levels Snow, Sun, Rain, Snow}
+#'  \item{sortOrder}{Character Values of Weather with Levels Snow, Sun, Rain, Snow}
+#'  \item{appId}{Character Values of Weather with Levels Snow, Sun, Rain, Snow}
+#' }
+#' @source Google Play Store
+"safeboda"
