@@ -1,0 +1,25 @@
+# A tibble: 20 x 12
+   reviewId userName userImage content score thumbsUpCount reviewCreatedVe~
+   <chr>    <chr>    <chr>     <chr>   <dbl>         <dbl> <chr>           
+ 1 gp:AOqp~ Michael~ https://~ "I don~     1            12 3.3.14          
+ 2 gp:AOqp~ ainomug~ https://~ "I hav~     1             0 3.3.14          
+ 3 gp:AOqp~ Joyce A~ https://~ "What'~     1             0 3.3.16          
+ 4 gp:AOqp~ Oluwato~ https://~ "I can~     1             1 3.3.15          
+ 5 gp:AOqp~ Adewumi~ https://~ "I did~     1            74 3.3.13          
+ 6 gp:AOqp~ Olatunb~ https://~ "I jus~     1            28 3.3.13          
+ 7 gp:AOqp~ Kyefuga~ https://~ "It's ~     1           134 3.3.9           
+ 8 gp:AOqp~ Dennis ~ https://~ "Usele~     1             1 3.3.13          
+ 9 gp:AOqp~ Coyie M~ https://~ "It's ~     1            15 3.3.9           
+10 gp:AOqp~ rosebum~ https://~ "The a~     1             3 3.3.13          
+11 gp:AOqp~ Catheri~ https://~ "I hav~     5             3 1.4.0           
+12 gp:AOqp~ Wycliff~ https://~ "Have ~     5             1 1.4.0           
+13 gp:AOqp~ jimmy m~ https://~ "Great"     5             1 <NA>            
+14 gp:AOqp~ Joel Je~ https://~ "This ~     5             2 1.4.0           
+15 gp:AOqp~ Siler B~ https://~ "Aweso~     5             3 1.4.0           
+16 gp:AOqp~ A Googl~ https://~ "Aweso~     5             2 1.4.0           
+17 gp:AOqp~ Mande E~ https://~ "this ~     5             7 1.4.0           
+18 gp:AOqp~ Shaun D~ https://~ "A new~     5             2 <NA>            
+19 gp:AOqp~ Chris J~ https://~ "The n~     5             3 1.4.0           
+20 gp:AOqp~ A Googl~ https://~ "Works~     5             3 1.3.0           
+# ... with 5 more variables: at <dttm>, replyContent <chr>, repliedAt <dttm>,
+#   sortOrder <chr>, appId <chr>

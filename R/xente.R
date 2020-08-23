@@ -1,6 +1,6 @@
-#' Safeboda Google Play Store Ratings
+#' App Store Ratings
 #'
-#' A Dataset containing SafeBoda google play store ratings
+#' A dataset containing google play store ratings
 #'
 #' @format A data frame of X rows and 12 columns
 #' \describe{
@@ -18,5 +18,5 @@
 #'  \item{sortOrder}{Character Values of Weather with Levels Snow, Sun, Rain, Snow}
 #'  \item{appId}{Character Values of Weather with Levels Snow, Sun, Rain, Snow}
 #' }
-#' @source Google Play Store \url{https://play.google.com/store/apps/details?id=com.safeboda.passenger&showAllReviews=true}
-"df_safeboda"
+#' @source Google Play Store \url{https://play.google.com/store/apps/details?id=com.airtel.africa.selfcare&showAllReviews=true}
+"df_xente"

@@ -1,17 +1,22 @@
 Package: appstorr
-Type: AppStore Ratings Analysis
 Title: What the Package Does (Title Case)
 Version: 0.1.0
 Author: c(
         person("simon", "kazooba", email = "smkabz@gmail.com", role = c("aut", "cre")),
         person("sylivia", "ninsiima", email = "ninsiimasyl@gmail.com", role = c("ctb")))
 Maintainer: The package maintainer <smkabz@gmail.com>
-Description: This package will help companies easily analyse ratings of an app on the AppStore
-License: What license is it under?
+Description: This package will help companies easily analyse ratings of their Apps on Google Play Store
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat
 VignetteBuilder: knitr
 RoxygenNote: 7.1.0
+Imports: 
+    dplyr,
+    patchwork,
+    emo,
+    lubridate

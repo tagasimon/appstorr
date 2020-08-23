@@ -1,0 +1,288 @@
+---
+title: "Quick Report"
+author: "Simon Sayz"
+date: "8/23/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+## 1. Load the Libraries
+Some of the Packages used in the Analysis
+
+```{r}
+
+pkgs <- c("tidyverse", "Amelia", "rebus", "bbplot","tidytext","tidymodels","lubridate","patchwork","ggthemes","knitr","emo","wordcloud")
+
+invisible(lapply(pkgs, library, character.only = TRUE))
+```
+
+
+
+## 2. Read in the Dataset & Glimpse
+
+```{r}
+reviews <- df_xente
+glimpse(reviews)
+```
+
+
+# 4. Missingness Map
+Some of the Columns are missing some observations for obvious reasons e.g The company doesn't reply to every single review and thus the column will miss some data.
+
+```{r}
+missmap(reviews, col = c("Black", "Yellow"))
+```
+
+
+## 5. Some Basic Cleanup and Processing
+Let's extract the year, months and major version numbers in into separate columns, will be helpful for further analysis down the road. 
+
+```{r}
+pattern <- DGT %R% optional(DGT)
+
+reviews_processed <- reviews %>% 
+        # na.omit(reviewCreatedVersion) %>% 
+        mutate(version_extracted = str_extract(reviewCreatedVersion, pattern = pattern)) %>%
+        mutate(version_nmbr = as.numeric(version_extracted)) %>% 
+        mutate(year = year(at),
+               month = month(at, label = TRUE), 
+               week_day = wday(at, label = TRUE))
+
+```
+
+## 6. What are the Most Common Used Words in the Reviews?
+Top 30 most common words in the reviews 
+
+```{r}
+reviews_processed %>% 
+  unnest_tokens(word, content) %>% 
+  anti_join(stop_words, by="word") %>%  
+  count(word, sort = TRUE) %>% 
+  head(30) %>% 
+  mutate(word = fct_reorder(word, n)) %>% 
+  ggplot(aes(word, n)) +
+  geom_col() +
+  coord_flip() +
+  labs(x="", y="Count")
+
+```
+
+
+## 7. What are the Most Common Positive and Negative Words?
+Using the **Bing Lexicons**, you get scores for Positive/Negative Words, these are the Top 20 most common -ve and +ve Words
+
+```{r}
+reviews_processed %>% 
+  unnest_tokens(word, content) %>% 
+  inner_join(get_sentiments("bing")) %>% 
+  anti_join(stop_words, by="word") %>% 
+  select(word, sentiment) %>% 
+  count(word, sentiment, sort = TRUE) %>% 
+  ungroup() %>% 
+  group_by(sentiment)  %>% 
+  top_n(20) %>% 
+  ungroup() %>% 
+  mutate(word = fct_reorder(word, n)) %>% 
+  ggplot(aes(word, n, fill = sentiment)) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~sentiment, scales = "free") + 
+  coord_flip() +
+  labs(y = "Contribution to Sentiment", x="")
+  
+```
+
+
+### 8.1 It is important to see which words contribute to your sentiment scores. 
+What exactly contribute most the different sentiment like anger, disgust, fear etc
+ 
+```{r fig.align='center'}
+reviews_processed %>%
+    unnest_tokens(word, content) %>% 
+    anti_join(stop_words, by="word") %>% 
+    inner_join(get_sentiments("nrc")) %>% 
+    # Count by word and sentiment
+    count(word, sentiment) %>% 
+    filter(sentiment %in% c("anger", "disgust", "trust", "joy")) %>% 
+    # Group by sentiment
+    group_by(sentiment) %>%
+    # Take the top 10 words for each sentiment
+    top_n(10) %>%
+    ungroup() %>%
+    mutate(word = reorder(word, n)) %>%
+    # Set up the plot with aes()
+    ggplot(aes(word, n, fill=sentiment)) +
+    geom_col(show.legend = FALSE) +
+    facet_wrap(~ sentiment, scales = "free") +
+    coord_flip() +
+    theme_fivethirtyeight()
+
+```
+
+
+### 8.2 Sentiment changes with time
+
+```{r fig.align='center'}
+sentiment_by_time <- reviews_processed %>%
+    unnest_tokens(word, content) %>% 
+    anti_join(stop_words, by="word") %>% 
+    # Define a new column using floor_date()
+    mutate(date = floor_date(at, unit = "3 months")) %>%
+    # Group by date
+    group_by(date) %>%
+    mutate(total_words = n()) %>%
+    ungroup() %>%
+    # Implement sentiment analysis using the NRC lexicon
+    inner_join(get_sentiments("nrc"), by="word")
+
+
+sentiment_by_time %>%
+    # Filter for positive and negative words
+    filter(sentiment %in% c("positive", "negative", "trust", "anger")) %>%
+    # Count by date, sentiment, and total_words
+    count(date, sentiment, total_words) %>%
+    ungroup() %>%
+    mutate(percent = n / total_words) %>%
+    # Set up the plot with aes()
+    ggplot(aes(date, percent, color = sentiment))+
+    geom_line(size = 1.5) +
+    geom_smooth(method = "lm", se = FALSE, lty = 2) +
+    expand_limits(y = 0) +
+    theme_fivethirtyeight()
+```
+
+
+
+### 8.3 What is the Average Rating for a Word
+These are words that appeared more than x100 
+```{r fig.align='center'}
+
+## Best avg Rating
+reviews_processed %>%
+  unnest_tokens(word, content) %>% 
+  anti_join(stop_words, by="word") %>% 
+  group_by(word) %>% 
+  summarize(avg_rating = mean(score, na.rm = TRUE),
+            n = n()) %>%
+  filter(n > 100) %>% 
+  arrange(desc(avg_rating))
+
+
+## Worst avg Rating
+reviews_processed %>%
+  unnest_tokens(word, content) %>% 
+  anti_join(stop_words, by="word") %>% 
+  group_by(word) %>% 
+  summarize(avg_rating = mean(score, na.rm = TRUE),
+            n = n()) %>%
+  filter(n > 100) %>% 
+  arrange(avg_rating)
+
+```
+
+
+# PART 2
+
+So far we’ve considered words as individual units, and considered their relationships to sentiments. However, many interesting text analyses are based on the relationships between words, e.g examining which words tend to follow others immediately
+
+
+## 9 Visualizing a network of bigrams
+
+Lets visualize all of the relationships among words simultaneously, rather than just the top few at a time.
+
+```{r fig.align='center'}
+pkgs2 <- c("igraph","ggraph","widyr")
+lapply(pkgs2, library, character.only = TRUE)
+
+set.seed(12345)
+
+bigrams_ratings <- reviews_processed %>%
+  unnest_tokens(bigrams, content, token = "ngrams", n = 2) %>% 
+  select(bigrams, everything())
+  # sample_n(10) %>% 
+  # pull(bigrams)
+
+bigrams_ratings_separated <- bigrams_ratings %>% 
+  separate(bigrams, c("word1", "word2", sep = " ")) %>% 
+  filter(!word1 %in% stop_words$word) %>%
+  filter(!word2 %in% stop_words$word) %>% 
+  count(word1, word2, sort = TRUE)
+
+bigram_graph <- bigrams_ratings_separated %>% 
+  filter(n > 10) %>% 
+  graph_from_data_frame()
+
+
+a <- grid::arrow(type = "closed", length = unit(.15, "inches"))
+
+ggraph(bigram_graph, layout = "fr") +
+  geom_edge_link(aes(edge_alpha = n), show.legend = FALSE,
+                 arrow = a, end_cap = circle(.07, 'inches')) +
+  geom_node_point(color = "lightblue", size = 5) +
+  geom_node_text(aes(label = name), vjust = 1, hjust = 1) +
+  theme_void()
+```
+*App* is one of the common centers of nodes which is often followed by words like  amazing, lovely, cool, beautiful etc
+
+
+We also see pairs or triplets along the outside that form common short phrases like : “takes forever”,  “uknown error”, "code verification"
+
+
+## 9.1 Words preceded by Not, No, Never, Without
+By performing sentiment analysis on the bigram data, we can examine how often sentiment-associated words are preceded by “not” or other negating words like "no", "Never" and "Without"
+
+
+```{r fig.align='center'}
+negation_words <- c("not", "no", "never", "without")
+AFINN <- get_sentiments("afinn")
+bigrams_ratings %>%
+  separate(bigrams, into = c("word1", "word2"), sep = " ") %>% 
+  filter(word1 %in% negation_words)  %>%   
+  inner_join(AFINN, by = c(word2 = "word")) %>%
+  count(word1, word2, value, sort = TRUE) %>% 
+  mutate(contribution = n * value) %>%
+  arrange(desc(abs(contribution))) %>%
+  head(30) %>% 
+  mutate(word2 = reorder(word2, contribution)) %>%
+  ggplot(aes(word2, n * value, fill = n * value > 0)) +
+  geom_col(show.legend = FALSE) +
+  xlab("Words preceded by \"not\"") +
+  ylab("Sentiment value * number of occurrences") +
+  coord_flip() +
+  labs(title = "Words Preceeded by NOT...")
+  # facet_wrap(~word1, ncol = 2)
+```
+
+The bigrams “not good” and “not happy” were overwhelmingly the largest causes of misidentification, making the text seem much more positive than it is. But we can see phrases like “not bad” and “not problem” sometimes suggest text is more negative than it is.
+
+
+## 9.2 Word Cloud
+Text analysis is never complete without a word cloud. `r emo::ji("smile")`
+
+```{r}
+reviews_processed %>%
+  unnest_tokens(word, content) %>% 
+  anti_join(stop_words, by="word") %>% 
+  count(word) %>%
+  with(wordcloud(word, n, max.words = 200))
+
+```
+
+### What Next 
+-  [Xente Text Analysis Detailed](https://simonsayz.xyz/post/text-analysis-of-xente-app-google-play-store-reviews-in-r/)
+
+### Future Work
+1. A Sentiment Model to Predict a Rating Based the content in the Review.
+
+2. Work on an Interactive Web Application to bring the Analysis to Life for any Application on Google Play Store
+
+3. An R Package for easier and further Analysis.
+
+### Helpul Links
+- [R Packages](https://r-pkgs.org/data.html)
+- [R for Data Science](https://r4ds.had.co.nz/)
+- [Text Mining in R](https://www.tidytextmining.com/)
+- [Sentiment Anlysis in R from DataCamp](https://campus.datacamp.com/)
+
