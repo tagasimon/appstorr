@@ -2,7 +2,7 @@
 #'
 #' A dataset containing google play store ratings
 #'
-#' @format A data frame of 628 rows and 12 columns
+#' @format A data frame of 6418 rows and 12 columns
 #' \describe{
 #'  \item{reviewId}{a Unique hashed value for each review}
 #'  \item{userName}{Character values for a reviewer}
@@ -18,4 +18,4 @@
 #'  \item{appId}{A unique app Identity on the store}
 #' }
 #' @source Google Play Store \url{https://play.google.com/}
-"df_xente"
+"df_nssf"

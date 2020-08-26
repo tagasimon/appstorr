@@ -17,5 +17,5 @@
 #'  \item{sortOrder}{Character Values of the sort order with Levels most_relevant, newest}
 #'  \item{appId}{A unique app Identity on the store}
 #' }
-#' @source Google Play Store \url{https://play.google.com/store/apps/details?id=com.safeboda.passenger&showAllReviews=true}
+#' @source Google Play Store \url{https://play.google.com/}
 "df_safeboda"

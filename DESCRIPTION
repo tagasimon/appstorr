@@ -1,5 +1,5 @@
 Package: appstorr
-Title: This packages makes it easy for to do some lite Text Analysis on Google Play Store Reviews.
+Title: Automate Analysis on Google Play Store Reviews 
 Version: 0.1.0
 Author: c(
         person("simon", "kazooba", email = "smkabz@gmail.com", role = c("aut", "cre")),

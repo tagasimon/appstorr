@@ -27,7 +27,8 @@ report_config <- params$report_config
 response <- params$response
 
 ```
-#PART 1
+
+# PART 1
 
 ## 1. Missingness Map
 Some of the Columns are missing some observations for obvious reasons e.g The company doesn't reply to every single review and thus the column will miss some data.
@@ -38,8 +39,8 @@ missmap(reviews, col = c("Black", "Yellow"))
 ```
 
 
-## 2. Some Basic Cleanup and Processing
-Let's extract the year, months and major version numbers in into separate columns, will be helpful for further analysis down the road. 
+<!-- ## 2. Some Basic Cleanup and Processing -->
+<!-- Let's extract the year, months and major version numbers in into separate columns, will be helpful for further analysis down the road.  -->
 
 ```{r}
 pattern <- DGT %R% optional(DGT)
@@ -55,15 +56,15 @@ reviews_processed <- reviews %>%
 
 ```
 
-## 3. What are the Most Common Used Words in the Reviews?
-Top 30 most common words in the reviews 
+## 2. What are the Most Common Used Words in the Reviews?
+Top 20 most common words in the reviews 
 
 ```{r}
 reviews_processed %>% 
   unnest_tokens(word, content) %>% 
   anti_join(stop_words, by="word") %>%  
   count(word, sort = TRUE) %>% 
-  head(30) %>% 
+  head(20) %>% 
   mutate(word = fct_reorder(word, n)) %>% 
   ggplot(aes(word, n)) +
   geom_col() +
@@ -73,7 +74,7 @@ reviews_processed %>%
 ```
 
 
-## 4. What are the Most Common Positive and Negative Words?
+## 3. What are the Most Common Positive and Negative Words?
 Using the **Bing Lexicons**, you get scores for Positive/Negative Words, these are the Top 20 most common -ve and +ve Words
 
 ```{r}
@@ -96,7 +97,7 @@ reviews_processed %>%
   
 ```
 
-## 5. It is important to see which words contribute to your sentiment scores. 
+## 4. It is important to see which words contribute to your sentiment scores. 
 What exactly contribute most the different sentiment like anger, disgust, fear etc
  
 ```{r fig.align='center'}
@@ -123,7 +124,7 @@ reviews_processed %>%
 ```
 
 
-## 6. Sentiment changes with time
+## 5. Sentiment changes with time
 
 ```{r fig.align='center'}
 sentiment_by_time <- reviews_processed %>%
@@ -154,34 +155,6 @@ sentiment_by_time %>%
     theme_fivethirtyeight()
 ```
 
-## 7. What is the Average Rating for a Word
-These are words that appeared more than x100 
-
-```{r fig.align='center'}
-
-## Best avg Rating
-reviews_processed %>%
-  unnest_tokens(word, content) %>% 
-  anti_join(stop_words, by="word") %>% 
-  group_by(word) %>% 
-  summarize(avg_rating = mean(score, na.rm = TRUE),
-            n = n()) %>%
-  filter(n > 100) %>% 
-  arrange(desc(avg_rating))
-
-
-## Worst avg Rating
-reviews_processed %>%
-  unnest_tokens(word, content) %>% 
-  anti_join(stop_words, by="word") %>% 
-  group_by(word) %>% 
-  summarize(avg_rating = mean(score, na.rm = TRUE),
-            n = n()) %>%
-  filter(n > 100) %>% 
-  arrange(avg_rating)
-
-```
-
 
 
 # PART 2
@@ -189,7 +162,7 @@ reviews_processed %>%
 So far we’ve considered words as individual units, and considered their relationships to sentiments. However, many interesting text analyses are based on the relationships between words, e.g examining which words tend to follow others immediately
 
 
-## 8. Visualizing a network of bigrams
+## 6. Visualizing a network of bigrams
 
 Lets visualize all of the relationships among words simultaneously, rather than just the top few at a time.
 
@@ -224,7 +197,7 @@ ggraph(bigram_graph, layout = "fr") +
   theme_void()
 ```
 
-### 8.1 Words preceded by Not, No, Never, Without
+### 7.1 Words preceded by Not, No, Never, Without
 By performing sentiment analysis on the bigram data, we can examine how often sentiment-associated words are preceded by “not” or other negating words like "no", "Never" and "Without"
 
 
@@ -249,7 +222,7 @@ bigrams_ratings %>%
   # facet_wrap(~word1, ncol = 2)
 ```
 
-### 8.2 Word Cloud
+### 7.2 Word Cloud
 Text analysis is never complete without a word cloud. `r emo::ji("smile")`
 
 ```{r}

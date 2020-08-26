@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# appstorr
+# appstorr <img src="man/figures/aaa.png" align="right" width="130" height="150"/>
 
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.png?v=103)](https://opensource.org/licenses/mit-license.php)
 
@@ -36,9 +36,3 @@ appstorr::quick_report(data = df,
 
 2. Work on an Interactive Web Application to bring the Analysis to Life for any Application on Google Play Store
 
-
-### Helpul Links
-- [R for Data Science](https://r4ds.had.co.nz/)
-- [Text Mining in R](https://www.tidytextmining.com/)
-- [R Packages](https://r-pkgs.org/data.html)
-- [Sentiment Anlysis in R from DataCamp](https://campus.datacamp.com/)
