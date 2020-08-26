@@ -8,6 +8,14 @@
 \description{
 This packages provides power to developers to explore appstore ratings easily
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/tagasimon/appstorr}
+  \item Report bugs at \url{https://github.com/tagasimon/appstorr/issues}
+}
+
+}
 \author{
 Simon Kazooba \email{smkabz@gmail.com}
 }

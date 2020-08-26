@@ -2,21 +2,20 @@
 #'
 #' A Dataset containing SafeBoda google play store ratings
 #'
-#' @format A data frame of X rows and 12 columns
+#' @format A data frame of 14291 rows and 12 columns
 #' \describe{
-#'  \item{reviewId}{Numeric values giving day of the week, 1 = Monday, 7 = Sunday}
-#'  \item{userName}{Numeric values of temperature}
-#'  \item{userImage}{Character Values of Weather with Levels Snow, Sun, Rain, Snow}
-#'  \item{content}{Character Values of Weather with Levels Snow, Sun, Rain, Snow}
-#'  \item{userImage}{Character Values of Weather with Levels Snow, Sun, Rain, Snow}
-#'  \item{score}{Character Values of Weather with Levels Snow, Sun, Rain, Snow}
-#'  \item{thumbsUpCount}{Character Values of Weather with Levels Snow, Sun, Rain, Snow}
-#'  \item{reviewCreatedVersion}{Character Values of Weather with Levels Snow, Sun, Rain, Snow}
-#'  \item{at}{Character Values of Weather with Levels Snow, Sun, Rain, Snow}
-#'  \item{replyContent}{Character Values of Weather with Levels Snow, Sun, Rain, Snow}
-#'  \item{repliedAt}{Character Values of Weather with Levels Snow, Sun, Rain, Snow}
-#'  \item{sortOrder}{Character Values of Weather with Levels Snow, Sun, Rain, Snow}
-#'  \item{appId}{Character Values of Weather with Levels Snow, Sun, Rain, Snow}
+#'  \item{reviewId}{a Unique hashed value for each review}
+#'  \item{userName}{Character values for a reviewer}
+#'  \item{userImage}{A link to user Profile Image on Google}
+#'  \item{content}{Review text sent by a reviewer}
+#'  \item{score}{Numeric Values of of stars by the reviewer with Levels 1, 2, 3, 4, 5}
+#'  \item{thumbsUpCount}{Numeric Value showing the thumbs up count for each review}
+#'  \item{reviewCreatedVersion}{Version number of the App}
+#'  \item{at}{Time and Date for the submission of the review}
+#'  \item{replyContent}{Reply text to the review}
+#'  \item{repliedAt}{Time and Date of the Reply}
+#'  \item{sortOrder}{Character Values of the sort order with Levels most_relevant, newest}
+#'  \item{appId}{A unique app Identity on the store}
 #' }
 #' @source Google Play Store \url{https://play.google.com/store/apps/details?id=com.safeboda.passenger&showAllReviews=true}
 "df_safeboda"

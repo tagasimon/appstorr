@@ -1,0 +1,39 @@
+---
+title: "Quick View at how the package Works"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{explore_datasets}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Load the Package
+```{r setup}
+library(appstorr)
+```
+
+## Sample Code
+```{r}
+df <- appstorr::df_safeboda
+appstorr::quick_report(data = df, 
+                       report_title = "Awesome SafeBoda Text Analysis Report")
+```
+
+The dataset should include atleast these 2 Columns:
+  
+  - content              <chr>
+  - at                   <dttm>
+  
+| content | at |
+|------:|:-----|
+|  xx   | 123  |
+| xxxx  | 123  |
+| xxxx  | 123  |
+

@@ -6,30 +6,52 @@
 #'
 #' @author "My Name is Simon Kazooba"
 #'
-#' @importFrom dplyr select
+#' @importFrom utils browseURL
+#' @import rmarkdown
 #'
-#' @return "This function returns a quick report of ratings for an \code{App}"
+#' @return "This function returns a quick report of an \code{App}"
 #' @export
 #'
 #' @examples
-#' quick_report("safeboda")
+#' quick_report(df)
 #'
-#' @note Experimental
+#' @note Developing
 
 
-quick_report <- function(appname){
-        # if(!is.numeric(x)){
-        #         stop("please pass a name of an app e.g safeboda")
-        # }
-        if(is.null(appname)){
-                stop("Please pass a name of an app")
-        }
-        if(appname == "safeboda"){
-                sb <- system.file("rmd", "quick_report_safeboda.Rmd", package = "appstorr")
-                rmarkdown::render(sb)
+quick_report <- function(data,
+                         output_format = rmarkdown::html_document(toc = TRUE, toc_depth = 6, theme = "yeti"),
+                         output_file = "report.html",
+                         output_dir = getwd(),
+                         # config = configure_report(),
+                         report_title = "Text Analysis Report"
+                         ){
+
+        if(is.null(data)){  ## if appname if provided
+                stop("Please pass in a dataframe of ratings")
         }
 
-        if(appname == "xente"){
-                system.file("rmd", "quick_report_xente.Rmd", package = "appstorr")
+        if(!is.data.frame(data)){ ## if its a characeter or not
+                stop("Please pass a dataframe of ratingss")
         }
+
+        if(is.data.frame(data)){
+                ## Get directory of report markdown template
+                report_dir <- system.file("rmd/report.rmd", package = "appstorr")
+                ## Render report into html
+                suppressWarnings(rmarkdown::render(
+                        input = report_dir,
+                        output_format = output_format,
+                        output_file = output_file,
+                        output_dir = output_dir,
+                        intermediates_dir = output_dir,
+                        params = list(data = data,
+                                      # report_config = config,
+                                      set_title = report_title)
+                ))
+                ## Open report
+                report_path <- path.expand(file.path(output_dir, output_file))
+                browseURL(report_path)
+        }
+
+
 }

@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 # appstorr
 
 <!-- badges: start -->
+[![Travis build status](https://travis-ci.org/tagasimon/appstorr.svg?branch=master)](https://travis-ci.org/tagasimon/appstorr)
 <!-- badges: end -->
 
 The goal of appstorr is to ...

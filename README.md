@@ -5,21 +5,40 @@
 
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.png?v=103)](https://opensource.org/licenses/mit-license.php)
 
-<!-- badges: end -->
+## Background
+I worked on a simple Text Analysis on Safe Boda Google Play Store Reviews
+[Link](https://simonsayz.xyz/post/text-analysis-of-safeboda-app-google-play-store-reviews-in-r/) and someone challenged me to work on an R package to make the same analysis easier and faster for any company with an App. 
 
-The goal of appstorr is to …
+## Installation
 
-## Install the development version from GitHub
+The latest stable version (if any) could be found on
+[GitHub](https://github.com/tagasimon/appstorr), and installed using
+`devtools` package.
 
 ``` r
-# devtools::install_github("tagasimon/appstorr")
+if (!require(devtools)) install.packages("devtools")
+devtools::install_github("tagasimon/appstorr")
 ```
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+The package is extremely easy to use. Almost everything could be done in
+one line of code. 
 
-``` r
-# library(appstorr)
-## basic example code
+```{r}
+df <- appstorr::df_safeboda
+appstorr::quick_report(data = df, 
+                       report_title = "Awesome SafeBoda Text Analysis Report")
 ```
+
+### Future Work
+1. A Sentiment Model to Predict a Rating Based the content in the Review.
+
+2. Work on an Interactive Web Application to bring the Analysis to Life for any Application on Google Play Store
+
+
+### Helpul Links
+- [R for Data Science](https://r4ds.had.co.nz/)
+- [Text Mining in R](https://www.tidytextmining.com/)
+- [R Packages](https://r-pkgs.org/data.html)
+- [Sentiment Anlysis in R from DataCamp](https://campus.datacamp.com/)
