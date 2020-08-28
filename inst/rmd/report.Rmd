@@ -8,7 +8,7 @@ title: "`r params$set_title`"
 
 ```{r global_options, include=FALSE}
 
-pkgs <- c("tidyverse", "Amelia", "rebus", "bbplot","tidytext","tidymodels","lubridate","patchwork","ggthemes","knitr","emo","wordcloud", "rmarkdown", "data.table","igraph","ggraph","widyr")
+pkgs <- c("tidyverse", "Amelia", "rebus", "lubridate","patchwork","ggthemes","knitr","emo","wordcloud", "rmarkdown", "data.table","igraph","ggraph","widyr")
 
 invisible(lapply(pkgs, library, character.only = TRUE))
 

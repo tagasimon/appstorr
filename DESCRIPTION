@@ -23,4 +23,11 @@ Imports:
     lubridate,
     rmarkdown,
     data.table,
-    utils
+    utils,
+    rebus,
+    Amelia,
+    wordcloud,
+    igraph,
+    ggraph,
+    widyr,
+    ggthemes
